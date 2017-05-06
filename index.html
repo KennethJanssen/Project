@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>Fishing Buddy</title>
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<link rel="stylesheet" href="css/themes/Project.min.css" />
+<link rel="stylesheet" href="css/themes/jquery.mobile.icons.min.css" />
+<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile.structure-1.4.5.min.css" />
+<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+
+<!-- Script for persistant footer nav bar adapted from http://demos.jquerymobile.com/1.4.5/toolbar-fixed-persistent/page-c.html. It allows using 1 Data Role footer that stays regardless of what pages the user navigates to --->
+<script>
+		$(function() {
+			$( "[data-role='navbar']" ).navbar();
+			$( "[data-role='header'], [data-role='footer']" ).toolbar();
+		});
+		// Update the contents of the toolbars
+		$( document ).on( "pagecontainerchange", function() {
+			// Each of the pages has a data-title attribute
+			// which value is equal to the text of the nav button
+			// For example, on first page: <div data-role="page" data-title="Info">
+			var current = $( ".ui-page-active" ).jqmData( "title" );
+			// Change the heading
+			$( "[data-role='header'] h1" ).text( current );
+			// Remove active class from nav buttons
+			$( "[data-role='navbar'] a.ui-btn-active" ).removeClass( "ui-btn-active" );
+			// Add active class to current nav button
+			$( "[data-role='navbar'] a" ).each(function() {
+				if ( $( this ).text() === current ) {
+					$( this ).addClass( "ui-btn-active" );
+				}
+			});
+		});
+	</script>
+</head>
+
+<body>
+<!--- Persistant HEADER Nav Bar --->
+<div data-role="header" data-position="fixed" data-theme="a" role="banner" class="ui-header ui-bar-a ui-header-fixed slidedown"> <a href="#" data-rel="back" class="ui-btn-left ui-alt-icon ui-nodisc-icon ui-btn ui-icon-carat-l ui-btn-icon-notext ui-corner-all" data-role="button" role="button">Back</a> <a href="#popupsubmitcatch" data-rel="popup" class="ui-btn ui-corner-all ui-icon-tag ui-btn-icon-left ui-btn-right" data-role="button" role="button">Log Catch</a>
+  <!--- Log Catch Form --->
+  <div data-role="popup" id="popupsubmitcatch" class="ui-content" style="min-width:250px;" data-theme="a">
+    <form id="formsubmitcatch" method="post" action="/action_page_post.php">
+      <h3>Log a Catch!</h3>
+      <label for="firstname" class="ui-hidden-accessible">First Name:</label>
+      <input type="text" name="user" id="firstname" placeholder="First Name">
+      <label for="lastname" class="ui-hidden-accessible">Last Name:</label>
+      <input type="text" name="user" id="lastname" placeholder="Last Name">
+      <label for="emailaddress" class="ui-hidden-accessible">E-Mail:</label>
+      <input type="email" name="emailaddress" id="email" placeholder="JaneSmith@gmail.com">
+      <label for="lat" class="">Latitude:</label>
+      <input type="text" name="lat" id="lat" value="position.coords.Latitude"/>
+      <label for="lng" class="">Longitude:</label>
+      <input type="text" name="long" id="long" value="position.coords.longitude"/>
+      <label for="release">Catch & Release?</label>
+      <input type="checkbox" name="release" id="release" value="1" data-mini="true">
+      <fieldset data-role="controlgroup" class="ui-field-contain">
+        <legend> What type of fish did you catch?</legend>
+        <select name="fishtype" id="fishtype">
+          <optgroup label="Panfish (25 catch daily limit)">
+          <option value="panfish-001">Bluegill</option>
+          <option value="panfish-002">White Crappie</option>
+          <option value="panfish-003">Black Crappie</option>
+          <option value="panfish-004">Pumpkinseed</option>
+          <option value="panfish-006">Yellow Perch</option>
+          </optgroup>
+          <optgroup label="Bass (5 catch daily limit)">
+          <option value="bass-smallmouth">Smallmouth</option>
+          <option value="bass-largemouth">Largemouth</option>
+          </optgroup>
+          <optgroup label="Catfish (25 catch daily limit)">
+          <option value="catfish-001">Catfish</option>
+          </optgroup>
+        </select>
+      </fieldset>
+      <label for="info">Additional Information:</label>
+      <textarea name="addinfo" id="info"></textarea>
+      <input type="submit" data-inline="true" value="Log Catch!"/>
+      <script>
+          $function(){
+              this.document.body.innerHTML.getElementById('long').value=position.coords.longitude;
+          }
+          
+          </script>
+    </form>
+  </div>
+  <!--- /Log Catch Form --->
+  <h1 class="ui-title" role="heading" aria-level="1">Info</h1>
+</div>
+<!-- /header --> 
+<!--- /Persistant HEADER Nav Bar ---> 
+<!--- Persistant FOOTER Nav Bar --->
+<div data-role="footer" data-position="fixed" data-theme="a" role="contentinfo" class="ui-footer ui-bar-a ui-footer-fixed slideup">
+  <div data-role="navbar" class="ui-navbar" role="navigation">
+    <ul class="ui-grid-c">
+      <li><a href="#home" data-prefetch="true" data-icon="home" data-transition="slide">Home</a></li>
+      <li><a href="#catalog" data-prefetch="true" data-icon="eye"    data-transition="fade">Species Catalog</a></li>
+      <li><a href="#tracker" data-prefetch="true" data-icon="navigation" data-transition="flip">Tracker</a></li>
+      <li><a href="#baglimit" data-prefetch="true" data-icon="shop" data-transition="flow">Bag Limits</a></li>
+    </ul>
+  </div>
+</div>
+<!--- /Persistant FOOTER Nav Bar --->
+
+<div id="home" data-title="Home" data-role="page" data-theme="a">
+  <!-- /header -->
+  <div data-role="content">
+    <!--- carousel1 --->
+    <!--- /carousel1 --->
+    <ul data-role="listview" data-theme="a">
+      <li><a href="#catalog" data-transition="fade">Species Catalog
+        <p>Here you can identify your catch from a list of common species</p>
+        </a></li>
+      <li><a href="#tracker" data-transition="flip">Tracker
+        <p>Here you can identify your catch from a list of common species</p>
+        </a></li>
+      <li><a href="#baglimit" data-transition="flow">Bag Limits
+        <p>Keep track of your bag limits with this calculator</p>
+        </a></li>
+      <li><a href="http://dnr.wi.gov/topic/fishing/regulations/index.html" data-transition="pop">Rules and Regulations
+        <p>Ensure you're not breaking the law!</p>
+        </a></li>
+      <li><a href="#help" data-transition="slide">Help
+        <p>Learn about this apps features</p>
+        </a></li>
+    </ul>
+  </div>
+</div>
+<!-- page -->
+<div id="catalog" data-title="Species Catalog" data-role="page" data-theme="a">
+  <div data-role="content">
+    <input id="myFilter" data-type="search" placeholder="Search for fish species..">
+    <h4>Identify your Catch! (All Images/Scientific information from the <a href="http://dnr.wi.gov/topic/fishing/species/index.html">Wisconsin DNR - Used for educational purpose only)</a></h4>
+    <ul data-role="listview" data-filter="true" data-input="#myFilter">
+      <li data-role="list-divider">Panfish</li>
+      <li><a href="#catalog-bluegill" data-rel="popup"><img src="images/bluegill.png">Bluegill</a></li>
+      <li><a href="#catalog-bkcrappie" data-rel="popup"><img src="images/bkcrappie.png">Black Crappie</a></li>
+      <li><a href="#catalog-pumpkinseed" data-rel="popup"><img src="images/pumpkinseed.png">Pumpkinseed</a></li>
+      <li><a href="#catalog-yellowperch" data-rel="popup"><img src="images/yellowperch.png">Yellow Perch</a></li>
+      <li data-role="list-divider">Bass</li>
+      <li><a href="#catalog-smbass" data-rel="popup"><img src="images/smbasssmall.png">Smallmouth Bass</a></li>
+      <li><a href="#catalog-lmbass" data-rel="popup"><img src="images/lmbass.png">Largemouth Bass</a></li>
+    </ul>
+  </div>
+  <!--- Catalog --->
+<div data-role="popup" id="catalog-bluegill">
+    <div data-role="main" class="ui-content">
+      <h2>Bluegill</h2>
+      <p>Common name: Bluegill</p>
+      <img src="images/catalog-bluegill.png">
+     <p><b>Scientific name:</b> Lepomis macrochirus (Lepomis means "scaled cheek"; macrochirus means "large hand", possibly in reference to the size of the pectoral fin).</p>
+     <p><b>Distribution:</b> Bluegill occur in all three drainage basins in Wisconsin (Lake Michigan,  Mississippi River, and Lake Superior).  Originally it was not present in the Lake Superior basin, but as a result of widespread stocking, it is now present and reproducing in many lakes and rivers.</p>
+     <p><b>Spawning:</b> Spawning takes place from late May to early August (peaking in June) at water temperatures between 67 - 80º F.  Males select a sand or gravel bar that can be hollowed out to form a nest.  Before and after spawning, the male bluegill defends the nest against all species, but most vigorously against other male sunfishes.</p>
+     <p><b>Angling:</b> Plain garden worms are the favorite bait for bluegills, but they can be caught on a number of different types of lures.  The fly fisher can have fun with poppers, especially in spring and early summer, when nests are concentrated in shallow water. Most large bluegills are taken in deep water during the summer months by drifting with the wind using worms.  Wintertime jigging in the weed beds with grubs or mousies on ice jigs also produce excellent results.</p>
+      <a href="#" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b ui-icon-back ui-btn-icon-left" data-rel="back">Go Back</a> </div>
+  </div>
+  
+<div data-role="popup" id="catalog-bkcrappie">
+    <div data-role="main" class="ui-content">
+      <h2>Black Crappie</h2>
+      <p>Common name: Black Crappie</p>
+      <img src="images/catalog-bkcrappie.png">
+        <p><b>Scientific name:</b> Pomoxis nigromaculatus (Pomoxis means "sharp opercle (cheek)"; nigromaculatus means "black spotted")</p>
+        <p><b>Distribution:</b> The black crappie occurs in all three drainage basins in Wisconsin (Lake Michigan, Mississippi River, and Lake Superior). This glacial species is well distributed througout the state, except in the streams of the driftless area of southwestern Wisconsin.</p>
+        <p><b>Spawning:</b> In Wisconsin, the black crappie usually spawns in May and June; however, during a colder season, spawning may be delayed until July. Favorable spawning temperatures range from 64 to 68º F. The male sweeps out a nest in sand or fine gravel and guards the nest and defends the young until they start to feed.</p>
+        <p><b>Angling:</b> The black crappie is considered an excellent game fish when taken on light tackle. Extreme care must be taken in landing these fish because their mouths are very tender. Anglers specializing in catching black crappie know that to be successful the bait must be kept constantly moving. The best baits are small minnows, small maribou-covered jigs, plastic minnows, or small streamer flies cast along the outer edges of weed beds. The crappie lies in weed beds in deep water during the day and bite best in early morning or toward evening. In summer, with the abundance of small fish for feed, they are more difficult to catch. Small minnows are used as bait in winter.</p>
+      <a href="#" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b ui-icon-back ui-btn-icon-left" data-rel="back">Go Back</a> </div>
+  </div> 
+  
+<div data-role="popup" id="catalog-pumpkinseed">
+             <div data-role="main" class="ui-content">
+      <h2>Pumpkinseed</h2>
+      <p>Common name: Pumpkinseed</p>
+      <img src="images/catalog-bkcrappie.png">
+        <p><b>Scientific name:</b> Lepomis gibbosus</p>
+        <p><b>Distribution:</b> TBD</p>
+        <p><b>Spawning:</b> TBD</p>
+        <p><b>Angling:</b> TBD</p>
+      <a href="#" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b ui-icon-back ui-btn-icon-left" data-rel="back">Go Back</a> </div>
+  </div>  
+  
+  
+<div data-role="popup" id="catalog-yellowperch">
+    <div data-role="main" class="ui-content">
+      <h2>Yellow perch</h2>
+      <p>Common name: Yellow perch</p>
+      <img src="images/catalog-yellowperch.png">
+      <p><b>Scientific name:</b> Perca flavescens (Perca means "dusky"; flavescens means "becoming gold colored")</p>
+      <p><b>Distribution:</b> The yellow perch occurs in all three drainage basins in Wisconsin (Lake Michigan, Mississippi River, and Lake Superior), in all of the state's boundary waters, and in Lakes Michigan and Superior.  Because the yellow perch is a glacial lakes species, it is widely distributed except in the unglaciated region of southwestern Wisconsin.</p>
+      <p><b>Spawning:</b> Spawning normally occurs shortly after ice-out in April or early May at water temperatures of 45 - 52º F.  Yellow perch spawning closely follows that of walleyes and often coincides with that of suckers.  Yellow perch are random spawners, and do not construct nests, nor do they guard their eggs and their young.</p>
+      <p><b>Angling:</b> Yellow perch are primarily bottom feeders with a slow deliberate bite.  They eat almost anything, but prefer minnows, insect larvae, plankton, and worms.  Tackle may range from a simple handline or a fly rod in summer to a short, whippy, jigging rod in winter.  Because perch prefer cooler water, the best fishing is usually in deep water.  Perch move about in schools, often numbering in the hundreds.  If one spot is unproductive after a few tries, it is best to move to other spots until a school is located.</p>
+      <a href="#" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b ui-icon-back ui-btn-icon-left" data-rel="back">Go Back</a> </div>
+  </div>
+  
+<div data-role="popup" id="catalog-smbass">
+         <div data-role="main" class="ui-content">
+      <h2>Smallmouth Bass</h2>
+      <p>Common name: Smallmouth Bass</p>
+      <img src="images/catalog-smbass.png">
+    <p><b>Scientific name:</b> Micropterus dolomieu (Micropterus means "small fin"; dolomieu was named after M. Dolomieu, a French mineralogist.</p>
+    <p><b>Distribution:</b> The smallmouth bass occurs in all three drainage basins in Wisconsin (Lake Michigan, Mississippi River, and Lake Superior). It is quite probable that the fish was distributed over the state approximately as it is at present before any introductions were made. The smallmouth bass is common in medium to large streams and in large, clearwater lakes throughout Wisconsin.</p>
+    <p><b>Spawning:</b> In Wisconsin, smallmouth bass spawning usually occurs at water temperatures between 62 - 64º F, but they have been found spawning at 53º F. In southern Wisconsin, the smallmouth spawns from the middle of May through June (water temperatures between 55 - 75º F). The male smallmouth may build several "practice nests" until he finally settles on one as suitable. The nest is usually a large, perfectly circular, clean gravel structure. The male bass protects the nest against intruders of his own and other species.</p>
+    <p><b>Angling:</b> Pound for pound the smallmouth bass is the scrappiest fish of all Wisconsin. It is usually associated with a rocky stream or lake environment where its favorite food, the crayfish, is abundant. Some of the best lake fishing takes place in June during, and just after, the spawning season, and in early fall. Natural baits like hellgrammites, dragonfly larvae and crayfish are especially effective during early morning or late evening. (Note: In Wisconsin it is illegal to possess live crayfish while fishing or while possessing angling equipment on any inland water, except the Mississippi River.) Probably the best artificial baits are those used on the surface. Light tackle is ideal. Fish quietly, casting toward rocks or logs, keeping the rod tip up and the line taut.</p>
+      <a href="#" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b ui-icon-back ui-btn-icon-left" data-rel="back">Go Back</a>
+  </div> 
+  
+  
+    <div data-role="popup" id="catalog-lmbass">
+         <div data-role="main" class="ui-content">
+      <h2>Largemouth Bass</h2>
+      <p>Common name: Largemouth Bass</p>
+      <img src="images/catalog-lmbass.png">
+             <p><b>Scientific name:</b> Micropterus salmoides (Micropterus means "small fin"; salmoides means "trout-like" in gameness and food).</p>
+             <p><b>Distribution:</b> The largemouth bass occurs in all three drainage basins in Wisconsin (Lake Michigan, Mississippi River, and Lake Superior); it is least widespread in the driftless area of southwestern Wisconsin. Wisconsin is near the northern limit of distribution, and it has been suggested that its presence in the state, especially in the northern counties, resulted from introductions</p>.
+             <p><b>Spawning:</b> The spawning of largemouth bass in Wisconsin occurs from late April to early July. The selection of nest sites begin when water temperatures reach 60º F, and eggs are laid when the water temperatures are at 62 - 65º F. The male largemouth bass usually selects a sand or gravel bottom upon which to build a nest; however, the fish will also nest on soft bottoms, where they are able to expose such hard objects as roots, twigs, and snail shells on which to deposit the eggs. Territorial defense against intruders is practiced by the largemouth bass as it is by other sunfishes.</p>
+             <p><b>Angling:</b> Largemouth bass will bite on almost anything. They can be caught on minnows, worms, or other live bait, plus poppers or streamers presented with a fly rod, or plugs thrown from a casting or spinning rod. Because the bass is usually associated with weeds, a weedless bait will often be necessary. Best fishing times are early morning and evening during the warm months. Bass like warm water and warm weather. Few bite in the winter.</p>
+      <a href="#" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b ui-icon-back ui-btn-icon-left" data-rel="back">Go Back</a> </div>
+  </div> 
+    </div>
+  <!--- /Catalog --->
+</div>
+<!-- page -->
+<div id="tracker" data-title="Tracker" data-role="page" data-theme="a">
+<div data-role="content">
+<!--- The following is Adapted from Google's Geolocation example located : https://developers.google.com/maps/documentation/javascript/geolocation" -->
+    <div id="map" class="google-maps">
+    <script>
+      // Note: This example requires that you consent to location sharing when
+      // prompted by your browser. If you see the error "The Geolocation service
+      // failed.", it means you probably did not give permission for the browser to
+      // locate you.
+      var map, infoWindow;
+      function initMap() {
+        map = new google.maps.Map(document.getElementById('map'), {
+          center: {lat: -34.397, lng: 150.644},
+          zoom: 15,
+          mapTypeId: 'satellite'
+        });
+        infoWindow = new google.maps.InfoWindow;
+
+        // Try HTML5 geolocation.
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(function(position) {
+            var pos = {
+              lat: position.coords.latitude,
+              lng: position.coords.longitude
+            };
+            alert("Latitude: " + position.coords.latitude + " Longitude: " + position.coords.longitude); 
+            infoWindow.setPosition(pos);
+            infoWindow.setContent('Location found.');
+            infoWindow.open(map);
+            map.setCenter(pos);
+          }, function() {
+            handleLocationError(true, infoWindow, map.getCenter());
+          });
+        } else {
+          // Browser doesn't support Geolocation
+          handleLocationError(false, infoWindow, map.getCenter());
+        }
+      }
+
+      function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+        infoWindow.setPosition(pos);
+        infoWindow.setContent(browserHasGeolocation ?
+                              'Error: The Geolocation service failed.' :
+                              'Error: Your browser doesn\'t support geolocation.');
+        infoWindow.open(map);
+      }
+    </script>
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAM03hVCIf7ekKv9Q-n5BHnf-pSx8RTsog&callback=initMap">
+    </script>
+      </div>
+    </div>
+    </div>
+<!--- /Google maps geolocation --->
+<!-- /Tracker page -->
+<div id="baglimit" data-title="Bag Limits" data-role="page" data-theme="a">
+  <div data-role="content">
+    <h3>Header</h3>
+    <p>Here you can track how many fish of each type you have caught. Remember if you move to a body of water with a lower bag limit, it is illegal to have more than the limit.</p>
+  </div>
+</div>
+<!-- /baglimit page -->
+<div id="dnr" data-title="Rules" data-role="page" data-theme="a">
+  <div data-role="content">
+    <h3>Header</h3>
+    <p> Links here are to official documentation of regulations: </p>
+  </div>
+</div>
+<!-- /DNR page -->
+<div id="help" data-title="Help" data-role="page" data-theme="a">
+  <div data-role="content">
+    <h3>Header</h3>
+    <p> Here you will find information and videos on how to use application. </p>
+  </div>
+</div>
+<!-- /Help page -->
+
+
+</body>
+</html>
+
+
